@@ -1,7 +1,10 @@
 package com.edureka.devops.selenium;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
+import org.junit.After;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -38,37 +41,23 @@ public class App {
     }
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
+		
 		_setup(args[0], args[1], args[2]);
-		        
-		if(!driver.getPageSource().contains(HOME_PAGE_TITLE)) {
-			System.out.println("Test failed");
-        	System.exit(1);
-		}
-        
+		assertTrue(driver.getPageSource().contains(HOME_PAGE_TITLE));
+	        
         driver.findElement(By.linkText(ABOUT_US_LINK_NAME)).click();
         Thread.sleep(2000);
         
         String currentUrl = driver.getCurrentUrl();
-        if(!currentUrl.contains(ABOUT_US_PAGE_CONTEXT)) {
-        	System.out.println("Test failed");
-        	System.exit(1);
-        }
+        assertTrue(currentUrl.contains(ABOUT_US_PAGE_CONTEXT));
         
-        if(!driver.getPageSource().contains(PART_ABOUT_US_PAGE_CONTENT)) {
-        	System.out.println("Test failed");
-        	System.exit(1);
-        }
-        
-        if(driver.getPageSource().contains(PART_ABOUT_US_PAGE_CONTENT)) {
-        	System.out.println("Test passed successfully");
-        	System.exit(0);
-        }
-        else {
-        	System.out.println("Test failed");
-        	System.exit(1);
-        }
-        	
-        driver.quit();
+        assertTrue(driver.getPageSource().contains(PART_ABOUT_US_PAGE_CONTENT));
 
 	}
+	
+	@After
+    public void tearDown() {
+        driver.quit();
+    }
+	
 }
